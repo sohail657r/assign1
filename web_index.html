@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio - Single Page (Styled)</title>
+
+    <!-- Internal CSS based on CSS Basics lecture -->
+    <style>
+        /* ===== Global Reset & Base Styles ===== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth; /* smooth scrolling for in-page navigation */
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #020617; /* very dark navy */
+            color: #e5e7eb;
+            line-height: 1.6;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+
+        .page-bg {
+            min-height: 100vh;
+            padding: 32px 0 40px;
+            background:
+                radial-gradient(circle at top left, rgba(56, 189, 248, 0.45), transparent 55%),
+                radial-gradient(circle at top right, rgba(129, 140, 248, 0.35), transparent 60%),
+                radial-gradient(circle at bottom left, rgba(244, 114, 182, 0.35), transparent 55%);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .section-divider {
+            border: 0;
+            height: 1px;
+            margin: 28px 0;
+            background: linear-gradient(to right, transparent, #cbd5f5, transparent);
+        }
+
+        /* ===== Header & Navigation ===== */
+        header {
+            background: linear-gradient(135deg, #0ea5e9, #6366f1);
+            color: #f9fafb;
+            padding: 32px 32px 28px;
+            border-radius: 18px;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.7);
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 2.3rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        header p {
+            margin: 0 auto;
+            max-width: 720px;
+            font-size: 0.98rem;
+            color: #e5e7eb;
+        }
+
+        .nav-wrapper {
+            position: sticky;
+            top: 10px;
+            z-index: 20;
+            margin-bottom: 26px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 10px 16px;
+            background-color: #0b1120;
+            border-radius: 999px;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.85);
+        }
+
+        nav a {
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: #e5e7eb;
+        }
+
+        nav a:hover {
+            background: #e5e7eb;
+            color: #0f172a;
+        }
+
+        nav a:active {
+            transform: scale(0.97);
+        }
+
+        /* Pseudo-class examples for links */
+        nav a:visited {
+            opacity: 0.9;
+        }
+
+        /* ===== Generic Section Card Layout ===== */
+        section.section-card {
+            background-color: #ffffff;
+            color: #0f172a;
+            border-radius: 18px;
+            padding: 24px 28px 28px;
+            margin-bottom: 26px;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.6);
+            border-top: 4px solid #2563eb;
+        }
+
+        section.section-card h2 {
+            font-size: 1.6rem;
+            margin: 0 0 14px;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        section.section-card h2::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 64px;
+            height: 3px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #6366f1, #f97316);
+        }
+
+        section.section-card article > p {
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        /* Pseudo-element example */
+        section.section-card h2::first-letter {
+            font-size: 130%;
+            color: #2563eb;
+        }
+
+        /* ===== List Styling ===== */
+        ul, ol {
+            padding-left: 1.4rem;
+            margin-top: 4px;
+            margin-bottom: 14px;
+        }
+
+        ul li, ol li {
+            margin-bottom: 4px;
+        }
+
+        ul {
+            list-style-type: disc;
+        }
+
+        ol {
+            list-style-type: decimal;
+        }
+
+        /* ===== Table Styling (Hobbies, Games, Group Members) ===== */
+        .table-wrapper {
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        table.data-table th,
+        table.data-table td {
+            border: 1px solid #e5e7eb;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        table.data-table th {
+            background-color: #eff6ff;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-size: 0.78rem;
+            color: #0f172a;
+        }
+
+        table.data-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        table.data-table tr:hover {
+            background-color: #e0f2fe;
+        }
+
+        /* ===== Media Section Layout ===== */
+        table.media-layout {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table.media-layout td {
+            vertical-align: top;
+            padding: 0 10px;
+        }
+
+        .social-links {
+            list-style-type: square;
+        }
+
+        .social-links li {
+            margin-bottom: 6px;
+        }
+
+        .media-layout img {
+            border-radius: 12px;
+            box-shadow: 0 16px 35px rgba(15, 23, 42, 0.55);
+        }
+
+        .video-embed-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .video-embed {
+            flex: 1 1 260px;
+        }
+
+        .video-embed iframe {
+            width: 100%;
+            max-width: 100%;
+            border: 0;
+            border-radius: 12px;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.75);
+        }
+
+        /* ===== Contact Section ===== */
+        .contact-info p {
+            margin: 4px 0;
+        }
+
+        .contact-info b {
+            color: #0f172a;
+        }
+
+        .contact-table th,
+        .contact-table td {
+            text-align: left;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            margin-top: 30px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(148, 163, 184, 0.6);
+            color: #cbd5f5;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        footer a {
+            color: #60a5fa;
+            font-weight: 500;
+        }
+
+        footer a:hover {
+            color: #bfdbfe;
+        }
+
+        /* ===== Responsive Adjustments ===== */
+        @media (max-width: 768px) {
+            header {
+                padding: 24px 18px 20px;
+            }
+
+            header h1 {
+                font-size: 1.9rem;
+            }
+
+            section.section-card {
+                padding: 20px 18px 22px;
+            }
+
+            table.media-layout td {
+                display: block;
+                width: 100%;
+                padding: 0;
+                margin-bottom: 18px;
+            }
+
+            .nav-wrapper {
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-bg">
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <header>
+            <h1>My Personal Portfolio</h1>
+            <p>This portfolio website is created for Web Programming Languages using HTML and CSS.</p>
+        </header>
+
+        <!-- ===== NAVBAR ===== -->
+        <div class="nav-wrapper">
+            <nav>
+                <!-- Internal page linking using id -->
+                <a href="#home">Home</a>
+                <a href="#hobbies">My Hobbies</a>
+                <a href="#media">My Favorite Media</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- ===== HOME SECTION ===== -->
+        <section id="home" class="section-card">
+            <article>
+                <h2>Home</h2>
+                <p>
+                    Assalam-o-Alaikum! My name is Muhammad Sohail and this is a simple portfolio
+                    website created as part of the CSC 337 Web Programming Languages course.
+                    The main purpose of this site is to practice basic HTML and to organize my
+                    personal information in a clean way.
+                </p>
+                <p>
+                    On this single page you can read about my hobbies, some of the games and media
+                    I like, and how to contact me or my group members. Use the navigation links at
+                    the top to quickly move to any section.
+                </p>
+            </article>
+        </section>
+
+        <!-- ===== HOBBIES SECTION ===== -->
+        <section id="hobbies" class="section-card">
+            <article>
+                <h2>My Hobbies</h2>
+
+                <h3>Unordered List of Hobbies</h3>
+                <ul>
+                    <li>Reading books</li>
+                    <li>Playing online games</li>
+                    <li>Playing physical games</li>
+                    <li>Coding and learning new technologies</li>
+                    <li>Listening to music</li>
+                </ul>
+
+                <h3>Ordered List (Typical Weekend Plan)</h3>
+                <ol>
+                    <li>Finish university assignments</li>
+                    <li>Play an online game with friends</li>
+                    <li>Play a physical game outdoors</li>
+                    <li>Watch a movie or series</li>
+                    <li>Plan tasks for the next week</li>
+                </ol>
+
+                <h3>Games I Enjoy</h3>
+                <p>
+                    <b>Online Game:</b> PUBG Mobile. I usually play squad matches with my friends at
+                    night. It is fast-paced and every game feels different, so it never gets boring.
+                </p>
+                <p>
+                    <b>Physical Game:</b> Cricket. I normally play as a batsman and sometimes bowl
+                    medium pace. Weekend cricket with friends helps me relax after a busy week of
+                    university work.
+                </p>
+
+                <h3>Table 1: Favorite Hobbies</h3>
+                <div class="table-wrapper">
+                    <table class="data-table" border="1" cellpadding="5" cellspacing="0">
+                        <tr>
+                            <th>Hobby</th>
+                            <th>Reason</th>
+                            <th>Frequency</th>
+                        </tr>
+                        <tr>
+                            <td>Reading</td>
+                            <td>Helps me understand new ideas and improves my vocabulary</td>
+                            <td>Almost every night</td>
+                        </tr>
+                        <tr>
+                            <td>Online Gaming (PUBG Mobile)</td>
+                            <td>Good way to relax and stay connected with friends</td>
+                            <td>3&ndash;4 times a week</td>
+                        </tr>
+                        <tr>
+                            <td>Cricket</td>
+                            <td>Keeps me active and I enjoy playing in a team</td>
+                            <td>Usually on weekends</td>
+                        </tr>
+                        <tr>
+                            <td>Coding Practice</td>
+                            <td>Improves my programming skills and problem solving</td>
+                            <td>Several days a week</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h3>Table 2: Favorite Games (Mine and Friend's)</h3>
+                <div class="table-wrapper">
+                    <table class="data-table" border="1" cellpadding="5" cellspacing="0">
+                        <tr>
+                            <th>Type</th>
+                            <th>My Favorite Game</th>
+                            <th>Friend's Favorite Game</th>
+                        </tr>
+                        <tr>
+                            <td>Online Game</td>
+                            <td>PUBG Mobile</td>
+                            <td>Valorant</td>
+                        </tr>
+                        <tr>
+                            <td>Physical Game</td>
+                            <td>Cricket</td>
+                            <td>Football</td>
+                        </tr>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <!-- ===== MEDIA SECTION ===== -->
+        <section id="media" class="section-card">
+            <article>
+                <h2>My Favorite Media</h2>
+
+                <!-- Division using TABLE (left/right) -->
+                <table class="media-layout" border="0" cellpadding="10" cellspacing="0" width="100%">
+                    <tr>
+                        <!-- Left side: social media + images -->
+                        <td width="50%" valign="top">
+                            <h3>Social Media Posts</h3>
+                            <p>Some social media links:</p>
+                            <ul class="social-links">
+                                <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
+                                <li><a href="https://www.instagram.com" target="_blank">Instagram</a></li>
+                                <li><a href="https://www.facebook.com" target="_blank">Facebook</a></li>
+                            </ul>
+
+                            <h3>Images</h3>
+                            <p><b>Local Image:</b></p>
+                            <p>
+                                <!-- apni local image ka path change kar lena -->
+                                <img src="c:\Users\Inoxcent\Downloads\1762378628403.png" alt="My Profile Photo" width="200" height="200">
+                            </p>
+
+                            <p><b>Online Image:</b></p>
+                            <p>
+                                <img src="c:\Users\Inoxcent\Downloads\f1.jpg"
+                                     alt="Sample Online Image" width="250" height="150">
+                            </p>
+                        </td>
+
+                        <!-- Right side: YouTube videos -->
+                        <td width="50%" valign="top">
+                            <h3>YouTube Videos</h3>
+                            <p>Here are some YouTube videos I like:</p>
+
+                            <div class="video-embed-row">
+                                <div class="video-embed">
+                                    <iframe
+                                        src="https://www.youtube.com/embed/bPFlHvxH9MY"
+                                        title="HTML Tutorial 1" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <div class="video-embed">
+                                    <iframe
+                                        src="https://www.youtube.com/embed/bPFlHvxH9MY"
+                                        title="HTML Tutorial 1" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <div class="video-embed">
+                                    <iframe
+                                        src="https://www.youtube.com/embed/bPFlHvxH9MY"
+                                        title="HTML Tutorial 1" frameborder="0" allowfullscreen></iframe>
+                                </div>
+
+                                <div class="video-embed">
+                                    <iframe
+                                        src="https://www.youtube.com/embed/pQN-pnXPaVg"
+                                        title="HTML Tutorial 2" frameborder="0" allowfullscreen></iframe>
+                                </div>
+
+                                <div class="video-embed">
+                                    <iframe
+                                        src="https://www.youtube.com/embed/9bZkp7q19f0"
+                                        title="Fun Video" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </article>
+        </section>
+
+        <!-- ===== CONTACT SECTION ===== -->
+        <section id="contact" class="section-card">
+            <article>
+                <h2>Contact</h2>
+
+                <div class="contact-info">
+                    <h3>Personal Information</h3>
+                    <p><b>Name:</b> Muhammad Sohail</p>
+                    <p><b>Designation:</b> BS CS, 6th Semester</p>
+                    <p><b>Email:</b> <a href="mailto:sohail657r@gmail.com">sohail657r@gmail.com</a></p>
+                    <p><b>Phone:</b> +92 309 3513657</p>
+                </div>
+
+                <h3>Group Members</h3>
+                <div class="table-wrapper">
+                    <table class="data-table contact-table" border="1" cellpadding="5" cellspacing="0">
+                        <tr>
+                            <th>Member Name</th>
+                            <th>Student ID</th>
+                        </tr>
+                        <tr>
+                            <td>Muhammad Sohail</td>
+                            <td>38429</td>
+                        </tr>
+                        <tr>
+                            <td>Muhammad Talha</td>
+                            <td>38389</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h3>Location (Google Map)</h3>
+                <p>Example embedded Google Map (replace the iframe with your own location later):</p>
+
+                <!-- Google Maps embed example (replace src with real one from Google Maps) -->
+                <div class="video-embed" style="max-width: 400px;">
+                    <iframe
+                        src="https://share.google/CwDQY1VtYcvGwQg8x"
+                        width="400" height="300" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </article>
+        </section>
+
+        <!-- ===== FOOTER ===== -->
+        <footer>
+            <p>&copy; 2025 My Portfolio Website. All rights reserved.</p>
+            <p><a href="#home">Back to Top</a></p>
+        </footer>
+
+    </div>
+</div>
+</body>
+</html>
